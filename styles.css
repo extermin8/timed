@@ -1,0 +1,160 @@
+/* <!-- Foreground -->
+<circle cx='24' cy='24' r='8' id='f_high' fill='#231942'></circle>
+<circle cx='40' cy='24' r='8' id='f_med' fill='#5E548E'></circle>
+<circle cx='56' cy='24' r='8' id='f_low' fill='#BE95C4'></circle>
+<circle cx='72' cy='24' r='8' id='f_inv' fill='#E0B1CB'></circle>
+<!-- Background -->
+<circle cx='24' cy='40' r='8' id='b_high' fill='#FFFFFF'></circle>
+<circle cx='40' cy='40' r='8' id='b_med' fill='#5E548E'></circle>
+<circle cx='56' cy='40' r='8' id='b_low' fill='#BE95C4'></circle>
+<circle cx='72' cy='40' r='8' id='b_inv' fill='#9F86C0'></circle> */
+:root {
+    --gap: 2em;
+    --sidebar: 4em;
+    --frame-height: calc(100vh - var(--gap) * 4);
+}
+
+body {
+    font-family: 'Monaco', 'Andale Mono', 'Deja Vu Sans Mono', 'Consolas', monospace;
+    background-color: var(--background);
+    padding: 0em;
+	margin: 0;
+}
+
+#wrapper {
+    display: flex;
+    width: var(--frame-width);
+    margin: var(--gap) auto;
+}
+#todo-list {
+    /* z-index: 2; */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    row-gap: var(--gap);
+
+    width: calc(var(--frame-width) - var(--sidebar));
+    height: var(--frame-height);
+    overflow-y: scroll;
+
+    margin: 0;
+    padding: var(--gap) 0em;
+
+    list-style-type: none;
+    background-color: var(--b_low);
+}
+#todo-add {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--b_high);
+    color: var(--f_high);
+    width: var(--sidebar);
+    margin: 0;
+}
+
+
+
+/* Todo Item */
+.todo-item {
+    display: inline-flex;
+    flex-flow: row nowrap;
+    align-items: center;
+
+
+    width: calc(100% - var(--gap) * 2);
+    /* min-height: var(--gap); */
+    height: calc(1.5em + var(--gap));
+
+    /* background: linear-gradient(0deg, var(--b_high), var(--b_inv)); */
+    background-color: var(--b_med);
+    color: var(--f_high);
+    border: 1px solid var(--b_med);
+    overflow-wrap: break-word;
+}
+.todo-item:hover {
+    border: 1px solid var(--f_high);
+}
+
+.active {
+    background-color: var(--b_high);
+    border: 1px solid var(--b_high);
+    color: var(--f_high);
+}
+
+.todo-item > .todo-title {
+    flex-grow: 4;
+}
+
+.todo-item > i {
+    margin: calc(var(--gap) / 2);
+}
+
+
+
+/* Done Todos */
+.done {
+    background: var(--b_med);
+    color: var(--f_low);
+    border: 1px solid var(--b_med);
+}
+
+.done > span{
+    text-decoration: line-through;
+}
+
+
+
+/* Trash can on hover */
+.todo-item > :last-child {
+    /* display: none; */
+    visibility: hidden;
+}
+
+.todo-item:hover > :last-child  {
+    /* display: inline-block; */
+    visibility: visible;
+}
+
+
+
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: calc(var(--gap) / 4);
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: var(--b_med); 
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: var(--b_high);
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--b_high);
+  }
+
+
+@media only screen and (max-width: 600px) {
+    :root {
+        --gap: 1em;
+        --frame-width: 100vw;
+    } 
+}
+
+@media only screen and (min-width: 600px) {
+    :root {
+        --frame-width: 85vw;
+    }  
+}
+
+@media only screen and (min-width: 992px) {
+    :root {
+        --frame-width: 55vw;
+    }
+}
