@@ -36,34 +36,11 @@
             <i class="las la-plus"></i>
           </div>
           <div id="todo-list">
-            <div
+            <todo-item
               v-for="todo in sortedTodos"
-              :class="{
-              'todo-item': todo.title,
-              'done': todo.status === 'done',
-              'active': todo.status === 'active',
-            }"
-            >
-            <!-- TODO: реализовать таймер -->
-              <i
-                :class="{
-              'lar': todo.title,
-              'la-play-circle': todo.type === 'timer' && todo.status !== 'active',
-              'la-pause-circle': todo.type === 'timer' && todo.status === 'active',
-              'la-circle': todo.type === 'text' && todo.status === 'new',
-              'la-check-circle' : todo.status === 'done',
-            }"
-                @click="todo.type === 'timer' ? (todo.status === 'active' ? pauseTimer(todo.id) : startTimer(todo.id)) : toggleStatus(todo.id)"
-              ></i>
-              <span v-text="todo.title" class="todo-title"></span>
-              <span v-if="todo.type === 'timer'" class="todo-left"
-                >{{ Math.floor((todo.maxDuration-todo.currentDuration)/60) }}:{{
-                ((todo.maxDuration-todo.currentDuration) % 60) < 10 ? '0'+
-                ((todo.maxDuration-todo.currentDuration) % 60) :
-                ((todo.maxDuration-todo.currentDuration) % 60)}} left</span
-              >
-              <i class="lar la-trash-alt"></i>
-            </div>
+              :key="todo.id"
+              :todo="todo"
+            ></todo-item>
           </div>
         </div>
       </main>
@@ -123,11 +100,29 @@
                 type: "text",
                 status: "done",
               },
+              {
+                id: 7,
+                title: "Feed the cat",
+                type: "text",
+                status: "done",
+              },
+              {
+                id: 8,
+                title: "Check visa application status",
+                type: "text",
+                status: "done",
+              },
+              {
+                id: 9,
+                title: "Schedule an appointment to the dentist",
+                type: "text",
+                status: "done",
+              },
             ],
           };
         },
         computed: {
-          sortedTodos: function () {
+          sortedTodos: function() {
             return this.todos.sort((a, b) => {
               let ia = this.priority.indexOf(a.status);
               let ib = this.priority.indexOf(b.status);
@@ -141,30 +136,66 @@
             });
           },
         },
+      };
+      const app = Vue.createApp(TodoApp);
+      
+      app.component("todo-item", {
+        template: `
+            <div
+                  :class="{
+                  'todo-item': todo.title,
+                  'done': todo.status === 'done',
+                  'active': todo.status === 'active',
+                }"
+                >
+                  <!-- TODO: реализовать таймер -->
+                  <i
+                    :class="{
+                  'lar': todo.title,
+                  'la-play-circle': todo.type === 'timer' && todo.status !== 'active',
+                  'la-pause-circle': todo.type === 'timer' && todo.status === 'active',
+                  'la-circle': todo.type === 'text' && todo.status === 'new',
+                  'la-check-circle' : todo.status === 'done',
+                }"
+                    @click="todo.type === 'timer' ? (todo.status === 'active' ? pauseTimer() : startTimer()) : toggleStatus()"
+                  ></i>
+                  <span v-text='todo.title' class='todo-title'></span>
+                  <span v-if="todo.type === 'timer'" class='todo-left' v-text="secondsToTime(todo.maxDuration-todo.currentDuration) + ' left'"></span>
+                  <i class='lar la-trash-alt'></i>
+                </div>
+              `,
+        name: "TodoItem",
+        props: ["todo"],
         methods: {
-          startTimer(todoId) {
-            const index = this.todos.findIndex((item) => item.id === todoId);
-            this.todos[index].status = "active";
-          },
-          pauseTimer(todoId) {
-            const index = this.todos.findIndex((item) => item.id === todoId);
-            this.todos[index].status = "paused";
-          },
-          toggleStatus(todoType, todoId) {
-            const index = this.todos.findIndex((item) => item.id === todoId);
+          secondsToTime(e) {
+            const minutes = Math.floor((e % 3600) / 60)
+              .toString()
+              .padStart(2, "0");
 
-            if (todoType === "timer" && this.todos[index].status === "done") {
-              // TODO: изменения currentDuration не отражаются на .todo-left
-              this.todos[index].currentDuration = 0;
+              const seconds = Math.floor(e % 60)
+              .toString()
+              .padStart(2, "0");
+
+            return minutes + ":" + seconds;
+          },
+          startTimer() {
+            if (this.todo.status === "done") {
+              this.todo.currentDuration = 0;
             }
-
-            this.todos[index].status === "done"
-              ? (this.todos[index].status = "new")
-              : (this.todos[index].status = "done");
+            this.todo.status = "active";
+          },
+          pauseTimer() {
+            this.todo.status = "paused";
+          },
+          toggleStatus() {
+            this.todo.status === "done"
+              ? (this.todo.status = "new")
+              : (this.todo.status = "done");
           },
         },
-      };
-      const app = Vue.createApp(TodoApp).mount("#app");
+      });
+
+      app.mount("#app");
     </script>
   </body>
 </html>
