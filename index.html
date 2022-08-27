@@ -7,11 +7,12 @@
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>TODO App</title>
+    <title>timed</title>
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="styles.css" />
     <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro">
     <script type="text/javascript" src="lib/theme.js"></script>
   </head>
   <body>
@@ -40,6 +41,12 @@
           </li>
           <li class="todo-item">
             <i class="lar la-play-circle"></i>
+            <span class="todo-title">Work out</span>
+            <span class="todo-left">32:51 left</span>
+            <i class="lar la-trash-alt"></i>
+          </li>
+          <li class="todo-item">
+            <i class="lar la-play-circle"></i>
             <span class="todo-title">Clean up the desk</span>
             <span class="todo-left">15:00 left</span>
             <i class="lar la-trash-alt"></i>
@@ -52,11 +59,12 @@
           <li class="todo-item done">
             <i class="lar la-check-circle"></i>
             <span class="todo-title">Make a sketch of the app</span>
+            <span class="todo-left">15:00 left</span>
             <i class="lar la-trash-alt"></i>
           </li>
           <li class="todo-item done">
             <i class="lar la-check-circle"></i>
-            <span class="todo-title">Make a sketch of the app</span>
+            <span class="todo-title">Schedule an appointment to the vet</span>
             <i class="lar la-trash-alt"></i>
           </li>
           <li class="todo-item done">
@@ -131,9 +139,11 @@
           </li>
         </ul>
       </div>
-      
     </main>
-
+    <footer>
+        <div>Contact me</div>
+        <div>Credits</div>
+    </footer>
     <!-- <script src="" defer></script> -->
   </body>
 </html>

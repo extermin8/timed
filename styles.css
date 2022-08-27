@@ -11,11 +11,11 @@
 :root {
     --gap: 2em;
     --sidebar: 4em;
-    --frame-height: calc(100vh - var(--gap) * 4);
+    --frame-height: calc(100vh - var(--gap) * 6);
 }
 
 body {
-    font-family: 'Monaco', 'Andale Mono', 'Deja Vu Sans Mono', 'Consolas', monospace;
+    font-family: 'Source Code Pro', monospace;
     background-color: var(--background);
     padding: 0em;
 	margin: 0;
@@ -102,11 +102,19 @@ i {
     border: 1px solid var(--b_med);
 }
 
-.done > span{
+.done > .todo-title{
     text-decoration: line-through;
 }
 
-
+footer {
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    font-size: 0.75em;
+    color: var(--f_low);
+    width: var(--frame-width);
+}
 
 /* Trash can on hover */
 .todo-item > :last-child {
