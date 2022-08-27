@@ -59,8 +59,8 @@
               {
                 id: 1,
                 title: "Study CSS",
-                maxDuration: 300,
-                currentDuration: 96,
+                maxDuration: 60,
+                currentDuration: 50,
                 type: "timer",
                 status: "paused",
               },
@@ -122,7 +122,7 @@
           };
         },
         computed: {
-          sortedTodos: function() {
+          sortedTodos: function () {
             return this.todos.sort((a, b) => {
               let ia = this.priority.indexOf(a.status);
               let ib = this.priority.indexOf(b.status);
@@ -138,7 +138,7 @@
         },
       };
       const app = Vue.createApp(TodoApp);
-      
+
       app.component("todo-item", {
         template: `
             <div
@@ -166,13 +166,30 @@
               `,
         name: "TodoItem",
         props: ["todo"],
+        data() {
+          timerId: null;
+        },
+        watch: {
+          'todo.status'(newStatus) {
+            if (newStatus === 'active') {
+              this.timerId = setInterval(() => {this.todo.currentDuration++}, 1000);
+            } else {
+              clearInterval(this.timerId);
+            }
+          },
+          'todo.currentDuration'(val) {
+            if (val === this.todo.maxDuration) {
+              this.todo.status = 'done';
+            }
+          },
+        },
         methods: {
           secondsToTime(e) {
             const minutes = Math.floor((e % 3600) / 60)
               .toString()
               .padStart(2, "0");
 
-              const seconds = Math.floor(e % 60)
+            const seconds = Math.floor(e % 60)
               .toString()
               .padStart(2, "0");
 
