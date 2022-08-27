@@ -11,139 +11,160 @@
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="styles.css" />
-    <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro">
+    <link
+      rel="stylesheet"
+      href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Source+Code+Pro"
+    />
     <script type="text/javascript" src="lib/theme.js"></script>
+    <script src="https://unpkg.com/vue@3"></script>
   </head>
   <body>
-    <!--[if lt IE 7]>
-      <p class="browsehappy">
-        You are using an <strong>outdated</strong> browser. Please
-        <a href="#">upgrade your browser</a> to improve your experience.
-      </p>
-    <![endif]-->
     <script>
       let theme = new Theme();
       theme.install();
       theme.start();
     </script>
-    <main>
+    <div id="app">
+      <main>
         <div id="wrapper">
-            <div id="todo-add">
-                <i class="las la-plus"></i>
+          <!-- TODO: реализовать формочку для добавления todo -->
+          <div id="todo-add">
+            <i class="las la-plus"></i>
+          </div>
+          <div id="todo-list">
+            <div
+              v-for="todo in sortedTodos"
+              :class="{
+              'todo-item': todo.title,
+              'done': todo.status === 'done',
+              'active': todo.status === 'active',
+            }"
+            >
+            <!-- TODO: реализовать таймер -->
+              <i
+                :class="{
+              'lar': todo.title,
+              'la-play-circle': todo.type === 'timer' && todo.status !== 'active',
+              'la-pause-circle': todo.type === 'timer' && todo.status === 'active',
+              'la-circle': todo.type === 'text' && todo.status === 'new',
+              'la-check-circle' : todo.status === 'done',
+            }"
+                @click="todo.type === 'timer' ? (todo.status === 'active' ? pauseTimer(todo.id) : startTimer(todo.id)) : toggleStatus(todo.id)"
+              ></i>
+              <span v-text="todo.title" class="todo-title"></span>
+              <span v-if="todo.type === 'timer'" class="todo-left"
+                >{{ Math.floor((todo.maxDuration-todo.currentDuration)/60) }}:{{
+                ((todo.maxDuration-todo.currentDuration) % 60) < 10 ? '0'+
+                ((todo.maxDuration-todo.currentDuration) % 60) :
+                ((todo.maxDuration-todo.currentDuration) % 60)}} left</span
+              >
+              <i class="lar la-trash-alt"></i>
             </div>
-        <ul id="todo-list">
-          <li class="todo-item active">
-            <i class="lar la-pause-circle"></i> 
-            <span class="todo-title">Study CSS</span>
-            <span class="todo-left">03:24 left</span>
-            <i class="lar la-trash-alt"></i>
-          </li>
-          <li class="todo-item">
-            <i class="lar la-play-circle"></i>
-            <span class="todo-title">Work out</span>
-            <span class="todo-left">32:51 left</span>
-            <i class="lar la-trash-alt"></i>
-          </li>
-          <li class="todo-item">
-            <i class="lar la-play-circle"></i>
-            <span class="todo-title">Clean up the desk</span>
-            <span class="todo-left">15:00 left</span>
-            <i class="lar la-trash-alt"></i>
-          </li>
-          <li class="todo-item">
-            <i class="lar la-circle"></i>
-            <span class="todo-title">Buy a book</span>
-            <i class="lar la-trash-alt"></i>
-          </li>
-          <li class="todo-item done">
-            <i class="lar la-check-circle"></i>
-            <span class="todo-title">Make a sketch of the app</span>
-            <span class="todo-left">15:00 left</span>
-            <i class="lar la-trash-alt"></i>
-          </li>
-          <li class="todo-item done">
-            <i class="lar la-check-circle"></i>
-            <span class="todo-title">Schedule an appointment to the vet</span>
-            <i class="lar la-trash-alt"></i>
-          </li>
-          <li class="todo-item done">
-            <i class="lar la-check-circle"></i>
-            <span class="todo-title">Make a sketch of the app</span>
-            <i class="lar la-trash-alt"></i>
-          </li>
-          <li class="todo-item done">
-            <i class="lar la-check-circle"></i>
-            <span class="todo-title">Make a sketch of the app</span>
-            <i class="lar la-trash-alt"></i>
-          </li>
-          <li class="todo-item done">
-            <i class="lar la-check-circle"></i>
-            <span class="todo-title">Make a sketch of the app</span>
-            <i class="lar la-trash-alt"></i>
-          </li>
-          <li class="todo-item done">
-            <i class="lar la-check-circle"></i>
-            <span class="todo-title">Make a sketch of the app</span>
-            <i class="lar la-trash-alt"></i>
-          </li>
-          <li class="todo-item done">
-            <i class="lar la-check-circle"></i>
-            <span class="todo-title">Make a sketch of the app</span>
-            <i class="lar la-trash-alt"></i>
-          </li>
-          <li class="todo-item done">
-            <i class="lar la-check-circle"></i>
-            <span class="todo-title">Make a sketch of the app</span>
-            <i class="lar la-trash-alt"></i>
-          </li>
-          <li class="todo-item done">
-            <i class="lar la-check-circle"></i>
-            <span class="todo-title">Make a sketch of the app</span>
-            <i class="lar la-trash-alt"></i>
-          </li>
-          <li class="todo-item done">
-            <i class="lar la-check-circle"></i>
-            <span class="todo-title">Make a sketch of the app</span>
-            <i class="lar la-trash-alt"></i>
-          </li>
-          <li class="todo-item done">
-            <i class="lar la-check-circle"></i>
-            <span class="todo-title">Make a sketch of the app</span>
-            <i class="lar la-trash-alt"></i>
-          </li>
-          <li class="todo-item done">
-            <i class="lar la-check-circle"></i>
-            <span class="todo-title">Make a sketch of the app</span>
-            <i class="lar la-trash-alt"></i>
-          </li>
-          <li class="todo-item done">
-            <i class="lar la-check-circle"></i>
-            <span class="todo-title">Make a sketch of the app</span>
-            <i class="lar la-trash-alt"></i>
-          </li>
-          <li class="todo-item done">
-            <i class="lar la-check-circle"></i>
-            <span class="todo-title">Make a sketch of the app</span>
-            <i class="lar la-trash-alt"></i>
-          </li>
-          <li class="todo-item done">
-            <i class="lar la-check-circle"></i>
-            <span class="todo-title">Make a sketch of the app</span>
-            <i class="lar la-trash-alt"></i>
-          </li>
-          <li class="todo-item done">
-            <i class="lar la-check-circle"></i>
-            <span class="todo-title">Make a sketch of the app</span>
-            <i class="lar la-trash-alt"></i>
-          </li>
-        </ul>
-      </div>
-    </main>
-    <footer>
+          </div>
+        </div>
+      </main>
+      <footer>
         <div>Contact me</div>
         <div>Credits</div>
-    </footer>
-    <!-- <script src="" defer></script> -->
+      </footer>
+    </div>
+    <script>
+      const TodoApp = {
+        data() {
+          return {
+            appName: "timed",
+            priority: ["active", "paused", "new", "done"],
+            todos: [
+              {
+                id: 1,
+                title: "Study CSS",
+                maxDuration: 300,
+                currentDuration: 96,
+                type: "timer",
+                status: "paused",
+              },
+              {
+                id: 2,
+                title: "Workout",
+                maxDuration: 2000,
+                currentDuration: 304,
+                type: "timer",
+                status: "paused",
+              },
+              {
+                id: 3,
+                title: "Clean up the desk",
+                maxDuration: 900,
+                currentDuration: 0,
+                type: "timer",
+                status: "new",
+              },
+              {
+                id: 4,
+                title: "Buy a book",
+                type: "text",
+                status: "new",
+              },
+              {
+                id: 5,
+                title: "Make a sketch of the app",
+                maxDuration: 900,
+                currentDuration: 900,
+                type: "timer",
+                status: "done",
+              },
+              {
+                id: 6,
+                title: "Schedule an appointment to the vet",
+                type: "text",
+                status: "done",
+              },
+            ],
+          };
+        },
+        computed: {
+          sortedTodos: function () {
+            return this.todos.sort((a, b) => {
+              let ia = this.priority.indexOf(a.status);
+              let ib = this.priority.indexOf(b.status);
+              if (ia < ib) {
+                return -1;
+              }
+              if (ia > ib) {
+                return 1;
+              }
+              return 0;
+            });
+          },
+        },
+        methods: {
+          startTimer(todoId) {
+            const index = this.todos.findIndex((item) => item.id === todoId);
+            this.todos[index].status = "active";
+          },
+          pauseTimer(todoId) {
+            const index = this.todos.findIndex((item) => item.id === todoId);
+            this.todos[index].status = "paused";
+          },
+          toggleStatus(todoType, todoId) {
+            const index = this.todos.findIndex((item) => item.id === todoId);
+
+            if (todoType === "timer" && this.todos[index].status === "done") {
+              // TODO: изменения currentDuration не отражаются на .todo-left
+              this.todos[index].currentDuration = 0;
+            }
+
+            this.todos[index].status === "done"
+              ? (this.todos[index].status = "new")
+              : (this.todos[index].status = "done");
+          },
+        },
+      };
+      const app = Vue.createApp(TodoApp).mount("#app");
+    </script>
   </body>
 </html>
