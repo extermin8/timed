@@ -72,71 +72,7 @@
               ["type", ["timer", "text"]],
             ],
             iconStyle: "",
-            // TODO: сохранять в localStorage хотя бы
-            todos: [
-              {
-                id: 1,
-                title: "Study CSS",
-                maxDuration: 60000,
-                currentDuration: 50000,
-                type: "timer",
-                status: "paused",
-              },
-              {
-                id: 2,
-                title: "Workout",
-                maxDuration: 2000000,
-                currentDuration: 304000,
-                type: "timer",
-                status: "paused",
-              },
-              {
-                id: 3,
-                title: "Clean up the desk",
-                maxDuration: 900000,
-                currentDuration: 0,
-                type: "timer",
-                status: "new",
-              },
-              {
-                id: 4,
-                title: "Buy a book",
-                type: "text",
-                status: "new",
-              },
-              {
-                id: 5,
-                title: "Make a sketch of the app",
-                maxDuration: 900000,
-                currentDuration: 900000,
-                type: "timer",
-                status: "done",
-              },
-              {
-                id: 6,
-                title: "Schedule an appointment to the vet",
-                type: "text",
-                status: "done",
-              },
-              {
-                id: 7,
-                title: "Feed the cat",
-                type: "text",
-                status: "done",
-              },
-              {
-                id: 8,
-                title: "Check visa application status",
-                type: "text",
-                status: "done",
-              },
-              {
-                id: 9,
-                title: "Schedule an appointment to the dentist",
-                type: "text",
-                status: "done",
-              },
-            ],
+            todos: [],
           };
         },
         computed: {
@@ -156,7 +92,25 @@
             });
           },
         },
+        beforeMount() {
+          // читаю localStorage и все активные таймеры делаю неактивными
+          this.todos =
+            JSON.parse(localStorage.getItem("todos")).map((obj) => {
+              if (obj.status === "active") {
+                return { ...obj, status: "paused" };
+              }
+
+              return obj;
+            }) || [];
+        },
         watch: {
+          todos: {
+            handler(newValue, oldValue) {
+              localStorage.setItem("todos", JSON.stringify(newValue));
+              // console.log('todos changed', JSON.stringify(newValue));
+            },
+            deep: true,
+          },
           isFormOpened(newVal) {
             this.iconStyle = newVal
               ? "transform: rotate(45deg); animation: rotate 0.5s"
@@ -180,7 +134,7 @@
           },
           // maxDuration только если type - timer
           addTodo(todoTitle, todoType, todoMaxDuration) {
-            const todoId = Math.max(...this.todos.map((o) => o.id)) + 1;
+            const todoId = this.todos.length ? Math.max(...this.todos.map((o) => o.id)) + 1 : 0;
             const newTodo = {
               id: todoId,
               title: todoTitle,
@@ -224,6 +178,7 @@
                   'todo-item': todo.title,
                   'done': todo.status === 'done',
                   'active': todo.status === 'active',
+                  'animate-congrats': animateCongrats,
                 }"
                 >
                   <i
@@ -247,6 +202,7 @@
         data() {
           return {
             timerId: null,
+            animateCongrats: false,
           };
         },
         watch: {
@@ -261,7 +217,12 @@
           },
           "todo.currentDuration"(val) {
             if (val === this.todo.maxDuration) {
-              this.todo.status = "done";
+              clearInterval(this.timerId);
+              this.animateCongrats = true;
+              setTimeout(() => {
+                this.todo.status = "done";
+                this.animateCongrats = false;
+              }, 1000);
             }
           },
         },
