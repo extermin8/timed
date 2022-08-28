@@ -145,7 +145,7 @@
             return [...this.todos].sort((a, b) => {
               let result = 0;
 
-              for (i = 0; i < this.priority.length; i++) {
+              for (let i = 0; i < this.priority.length; i++) {
                 let prop = this.priority[i][0];
                 result = this.sortByPriority(a, b, prop);
                 if (result !== 0) {
