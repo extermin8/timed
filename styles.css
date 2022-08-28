@@ -151,6 +151,9 @@ input:placeholder-shown {
 input::placeholder {
     color: var(--f_low);
 }
+input:focus{
+    outline: none;
+}
 
 
 /* Transitions & animations */

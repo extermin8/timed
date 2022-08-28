@@ -141,12 +141,15 @@
           sortedTodos: function () {
             // Новый массив нужен чтобы работала анимация при пересортировке
             return [...this.todos].sort((a, b) => {
-              let ia = this.priority.indexOf(a.status);
-              let ib = this.priority.indexOf(b.status);
-              if (ia < ib) {
+              let sa = this.priority.indexOf(a.status);
+              let sb = this.priority.indexOf(b.status);
+              let ta = a.type;
+              let tb = b.type;
+              
+              if (sa < sb ) {
                 return -1;
               }
-              if (ia > ib) {
+              if (sa > sb) {
                 return 1;
               }
               return 0;
