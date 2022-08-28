@@ -31,11 +31,8 @@
     <div id="app">
       <main>
         <div id="wrapper">
-          <div id="todo-add" @click="isFormOpened = !isFormOpened">
-            <i
-              class="las la-plus"
-              :style="iconStyle"
-            ></i>
+          <div id="todo-add" @click="clickOnIcon">
+            <i class="las la-plus" :style="iconStyle"></i>
           </div>
           <transition-group
             name="list"
@@ -71,7 +68,7 @@
             appName: "timed",
             isFormOpened: false,
             priority: ["active", "paused", "new", "done"],
-            iconStyle: '',
+            iconStyle: "",
             // TODO: сохранять в localStorage хотя бы
             todos: [
               {
@@ -157,9 +154,11 @@
           },
         },
         watch: {
-          isFormOpened(newVal){
-            this.iconStyle = newVal ? 'transform: rotate(45deg); animation: rotate 0.5s' : 'animation: rotateBack 0.5s';
-          }
+          isFormOpened(newVal) {
+            this.iconStyle = newVal
+              ? "transform: rotate(45deg); animation: rotate 0.5s"
+              : "animation: rotateBack 0.5s";
+          },
         },
         methods: {
           // maxDuration только если type - timer
@@ -192,6 +191,10 @@
             el.style.top = `${el.offsetTop - parseFloat(marginTop, 10)}px`;
             el.style.width = width;
             el.style.height = height;
+          },
+          clickOnIcon() {
+            this.isFormOpened = !this.isFormOpened;
+            document.getElementById("todo-list").scrollTop = 0;
           },
         },
       };
@@ -277,7 +280,7 @@
 
       app.component("todo-form", {
         template: `
-                <div class="todo-item">
+                <div class="todo-item" @keyup.enter="process">
                   <i
                     :class="{
                   'lar': true,
