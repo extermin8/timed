@@ -32,6 +32,7 @@
       <main>
         <div id="wrapper">
           <div id="todo-add" @click="isFormOpened = !isFormOpened">
+            <!-- TODO: сделать анимацию при открытии и закрытии формы плавной -->
             <i
               class="las la-plus"
               :style="isFormOpened ? 'transform: rotate(45deg)' : ''"
@@ -63,6 +64,7 @@
             appName: "timed",
             isFormOpened: false,
             priority: ["active", "paused", "new", "done"],
+            // TODO: сохранять в localStorage хотя бы 
             todos: [
               {
                 id: 1,
@@ -181,7 +183,6 @@
                   'active': todo.status === 'active',
                 }"
                 >
-                  <!-- TODO: реализовать таймер -->
                   <i
                     :class="{
                   'lar': todo.title,
@@ -221,6 +222,7 @@
           },
         },
         methods: {
+          // TODO: заменить на moment.js
           secondsToTime(e) {
             const minutes = Math.floor((e % 3600) / 60)
               .toString()
@@ -260,7 +262,9 @@
                 }"
                     @click="todoType === 'timer' ? todoType = 'text' : todoType = 'timer'"
                   ></i>
+                  <!-- TODO: убрать бордер при фокусе на инпут -->
                   <input v-model="todoTitle" placeholder="Type your todo"  type="text" class='todo-title' />
+                  <!-- TODO: принимать человекочитаемый инпут, а не секунды --> 
                   <input v-if="todoType === 'timer'" class='todo-title' placeholder="and time in seconds" v-model="todoMaxDuration" type="text" inputmode="numeric" pattern="\d*">
                   <i
                     class='lar la-save'
