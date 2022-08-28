@@ -54,6 +54,7 @@ body {
     background-color: var(--b_high);
     color: var(--f_high);
     width: var(--sidebar);
+    min-height: calc(var(--sidebar)/2);
     margin: 0;
 }
 
@@ -149,20 +150,19 @@ input::placeholder {
     color: var(--f_low);
 }
 
+
+/* TODO: анимации не работают как должны, но пока пойдет */
 .list-move,
-.list-enter-active,
-.list-leave-active {
+.list-enter-active {
   transition: all 0.5s ease;
 }
 
-.list-enter-from {
-  opacity: 0;
-  transform: translateY(-30px);
+.list-leave-active {
+    width: inherit;
+    position: absolute;
 }
-/* TODO: пофиксить анимацию удаления и перемещения  */
 .list-leave-to {
     opacity: 0;
-    transform: translateX(-100px);
 }
 
 
