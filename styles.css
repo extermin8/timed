@@ -151,18 +151,40 @@ input::placeholder {
 }
 
 
-/* TODO: анимации не работают как должны, но пока пойдет */
-.list-move,
-.list-enter-active {
-  transition: all 0.5s ease;
+/* Transitions & animations */
+.list-move {
+    transition: transform 0.5s;
+} 
+.list-enter-active,
+.list-leave-active {
+    transition: all 0.5s ease;
+}
+
+.list-enter-from,
+.list-leave-to {
+    opacity: 0;
+    transform: translateY(var(--gap));
 }
 
 .list-leave-active {
-    width: inherit;
-    position: absolute;
+  position: absolute;
 }
-.list-leave-to {
-    opacity: 0;
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(45deg);
+    }
+}
+@keyframes rotateBack {
+    from {
+        transform: rotate(45deg);
+    }
+    to {
+        transform: rotate(0deg);
+    }
 }
 
 

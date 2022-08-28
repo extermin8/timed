@@ -32,13 +32,17 @@
       <main>
         <div id="wrapper">
           <div id="todo-add" @click="isFormOpened = !isFormOpened">
-            <!-- TODO: сделать анимацию при открытии и закрытии формы плавной -->
             <i
               class="las la-plus"
-              :style="isFormOpened ? 'transform: rotate(45deg)' : ''"
+              :style="iconStyle"
             ></i>
           </div>
-          <transition-group name="list" tag="div" id="todo-list">
+          <transition-group
+            name="list"
+            tag="div"
+            id="todo-list"
+            @before-leave="beforeLeave"
+          >
             <todo-form
               v-if="isFormOpened"
               @request-todo-creation="addTodo"
@@ -67,6 +71,7 @@
             appName: "timed",
             isFormOpened: false,
             priority: ["active", "paused", "new", "done"],
+            iconStyle: '',
             // TODO: сохранять в localStorage хотя бы
             todos: [
               {
@@ -151,6 +156,11 @@
             });
           },
         },
+        watch: {
+          isFormOpened(newVal){
+            this.iconStyle = newVal ? 'transform: rotate(45deg); animation: rotate 0.5s' : 'animation: rotateBack 0.5s';
+          }
+        },
         methods: {
           // maxDuration только если type - timer
           addTodo(todoTitle, todoType, todoMaxDuration) {
@@ -174,6 +184,14 @@
               return todo.id === todoId;
             });
             this.todos.splice(index, 1);
+          },
+          beforeLeave(el) {
+            const { marginLeft, marginTop, width, height } =
+              window.getComputedStyle(el);
+            el.style.left = `${el.offsetLeft - parseFloat(marginLeft, 10)}px`;
+            el.style.top = `${el.offsetTop - parseFloat(marginTop, 10)}px`;
+            el.style.width = width;
+            el.style.height = height;
           },
         },
       };
