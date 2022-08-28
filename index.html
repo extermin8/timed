@@ -10,7 +10,8 @@
     <title>timed</title>
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <link rel="stylesheet" href="assets/main.css" />
     <link
       rel="stylesheet"
       href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css"
@@ -134,7 +135,9 @@
           },
           // maxDuration только если type - timer
           addTodo(todoTitle, todoType, todoMaxDuration) {
-            const todoId = this.todos.length ? Math.max(...this.todos.map((o) => o.id)) + 1 : 0;
+            const todoId = this.todos.length
+              ? Math.max(...this.todos.map((o) => o.id)) + 1
+              : 0;
             const newTodo = {
               id: todoId,
               title: todoTitle,
