@@ -20,17 +20,17 @@
 body {
     font-family: 'Source Code Pro', monospace;
     background-color: var(--background);
+    color: var(--f_high);
     padding: 0em;
 	margin: 0;
 }
 
 #wrapper {
-    display: flex;
+    /* display: flex; */
     width: var(--frame-width);
     margin: var(--gap) auto;
 }
 #todo-list {
-    /* z-index: 2; */
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -145,8 +145,24 @@ input[type='text'] {
 input:placeholder-shown {
     border-bottom: 1px solid var(--f_low);    
 }
-input::placeholder{
+input::placeholder {
     color: var(--f_low);
+}
+
+.list-move,
+.list-enter-active,
+.list-leave-active {
+  transition: all 0.5s ease;
+}
+
+.list-enter-from {
+  opacity: 0;
+  transform: translateY(-30px);
+}
+/* TODO: пофиксить анимацию удаления и перемещения  */
+.list-leave-to {
+    opacity: 0;
+    transform: translateX(-100px);
 }
 
 

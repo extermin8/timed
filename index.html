@@ -38,19 +38,20 @@
               :style="isFormOpened ? 'transform: rotate(45deg)' : ''"
             ></i>
           </div>
-          <div id="todo-list">
+          <transition-group name="list" tag="div" id="todo-list">
             <todo-form
               v-if="isFormOpened"
               @request-todo-creation="addTodo"
             ></todo-form>
-            <!-- TODO: реализовать анимацию при сортировке и изменении списка -->
             <todo-item
+              v-if="todos.length"
               v-for="todo in sortedTodos"
               :key="todo.id"
               :todo="todo"
               @request-todo-deletion="deleteTodo"
             ></todo-item>
-          </div>
+            <p v-else>No todos yet!</p>
+          </transition-group>
         </div>
       </main>
       <footer>
@@ -66,7 +67,7 @@
             appName: "timed",
             isFormOpened: false,
             priority: ["active", "paused", "new", "done"],
-            // TODO: сохранять в localStorage хотя бы 
+            // TODO: сохранять в localStorage хотя бы
             todos: [
               {
                 id: 1,
@@ -136,7 +137,8 @@
         computed: {
           // TODO: реализовать сортировку правильно
           sortedTodos: function () {
-            return this.todos.sort((a, b) => {
+            // Новый массив нужен чтобы работала анимация при пересортировке
+            return [...this.todos].sort((a, b) => {
               let ia = this.priority.indexOf(a.status);
               let ib = this.priority.indexOf(b.status);
               if (ia < ib) {
