@@ -40,6 +40,7 @@
               v-for="todo in sortedTodos"
               :key="todo.id"
               :todo="todo"
+              @request-todo-deletion="deleteTodo"
             ></todo-item>
           </div>
         </div>
@@ -136,6 +137,14 @@
             });
           },
         },
+        methods: {
+          deleteTodo(todoId) {
+            const index = this.todos.findIndex((todo) => {
+              return todo.id === todoId;
+            });
+            this.todos.splice(index, 1);
+          },
+        },
       };
       const app = Vue.createApp(TodoApp);
 
@@ -161,25 +170,29 @@
                   ></i>
                   <span v-text='todo.title' class='todo-title'></span>
                   <span v-if="todo.type === 'timer'" class='todo-left' v-text="secondsToTime(todo.maxDuration-todo.currentDuration) + ' left'"></span>
-                  <i class='lar la-trash-alt'></i>
+                  <i class='lar la-trash-alt' @click="$emit('requestTodoDeletion', todo.id)"></i>
                 </div>
               `,
         name: "TodoItem",
         props: ["todo"],
         data() {
-          timerId: null;
+          return {
+            timerId: null
+          }
         },
         watch: {
-          'todo.status'(newStatus) {
-            if (newStatus === 'active') {
-              this.timerId = setInterval(() => {this.todo.currentDuration++}, 1000);
+          "todo.status"(newStatus) {
+            if (newStatus === "active") {
+              this.timerId = setInterval(() => {
+                this.todo.currentDuration++;
+              }, 1000);
             } else {
               clearInterval(this.timerId);
             }
           },
-          'todo.currentDuration'(val) {
+          "todo.currentDuration"(val) {
             if (val === this.todo.maxDuration) {
-              this.todo.status = 'done';
+              this.todo.status = "done";
             }
           },
         },
