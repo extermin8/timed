@@ -284,22 +284,29 @@
       app.component("todo-form", {
         template: `
                 <div class="todo-item" @keyup.enter="process">
-                  <i
-                    :class="{
-                  'lar': true,
-                  'la-clock': todoType === 'timer',
-                  'la-circle': todoType === 'text'
-                }"
-                    @click="todoType === 'timer' ? todoType = 'text' : todoType = 'timer'"
-                  ></i>
-                  <!-- TODO: убрать бордер при фокусе на инпут -->
-                  <input v-model="todoTitle" placeholder="Type your todo"  type="text" class='todo-title' />
-                  <!-- TODO: принимать человекочитаемый инпут, а не секунды --> 
-                  <input v-if="todoType === 'timer'" class='todo-title' placeholder="and time in seconds" v-model="todoMaxDuration" type="text" inputmode="numeric" pattern="\d*">
-                  <i
-                    class='lar la-save'
-                    @click="process"
-                  ></i>
+                    <template v-if="todoType === 'timer'">
+                      <i class="lar la-clock"
+                        @click="todoType === 'timer' ? todoType = 'text' : todoType = 'timer'"
+                      ></i>
+                      <input v-model="todoTitle" placeholder="Type your todo"  type="text" class='todo-title' />
+                      <!-- TODO: принимать человекочитаемый инпут, а не секунды --> 
+                      <input class='todo-title' placeholder="and time in seconds" v-model="todoMaxDuration" type="text" inputmode="numeric" pattern="\d*">
+                      <i
+                        class='lar la-save'
+                        @click="process"
+                      ></i>
+                    </template>
+                    
+                    <template v-else>
+                      <i class="lar la-circle"
+                        @click="todoType === 'timer' ? todoType = 'text' : todoType = 'timer'"
+                      ></i>
+                     <input v-model="todoTitle" placeholder="Type your todo"  type="text" class='todo-title' />
+                     <i
+                       class='lar la-save'
+                       @click="process"
+                     ></i>
+                    </template>
                 </div>
               `,
         name: "TodoForm",
