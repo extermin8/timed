@@ -59,6 +59,10 @@ body {
     min-height: calc(var(--button-width)/2);
     margin: 0;
 }
+#todo-add:hover {
+    background-color: var(--f_high);
+    color: var(--b_high);
+}
 
 
 
