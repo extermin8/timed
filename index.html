@@ -43,6 +43,7 @@
               v-if="isFormOpened"
               @request-todo-creation="addTodo"
             ></todo-form>
+            <!-- TODO: реализовать анимацию при сортировке и изменении списка -->
             <todo-item
               v-for="todo in sortedTodos"
               :key="todo.id"
@@ -53,6 +54,7 @@
         </div>
       </main>
       <footer>
+        <!-- TODO: что-то тут реализовать -->
         <div>Contact me</div>
         <div>Credits</div>
       </footer>
@@ -132,6 +134,7 @@
           };
         },
         computed: {
+          // TODO: реализовать сортировку правильно
           sortedTodos: function () {
             return this.todos.sort((a, b) => {
               let ia = this.priority.indexOf(a.status);
@@ -199,6 +202,7 @@
                 </div>
               `,
         name: "TodoItem",
+        // TODO: проверять проперти
         props: ["todo"],
         data() {
           return {
