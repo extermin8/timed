@@ -145,8 +145,8 @@
               let sb = this.priority.indexOf(b.status);
               let ta = a.type;
               let tb = b.type;
-              
-              if (sa < sb ) {
+
+              if (sa < sb) {
                 return -1;
               }
               if (sa > sb) {
@@ -205,28 +205,28 @@
 
       app.component("todo-item", {
         template: `
-                <div
-                  :class="{
-                  'todo-item': todo.title,
-                  'done': todo.status === 'done',
-                  'active': todo.status === 'active',
-                }"
-                >
-                  <i
-                    :class="{
-                  'lar': todo.title,
-                  'la-play-circle': todo.type === 'timer' && todo.status !== 'active',
-                  'la-pause-circle': todo.type === 'timer' && todo.status === 'active',
-                  'la-circle': todo.type === 'text' && todo.status === 'new',
-                  'la-check-circle' : todo.status === 'done',
-                }"
-                    @click="todo.type === 'timer' ? (todo.status === 'active' ? pauseTimer() : startTimer()) : toggleStatus()"
-                  ></i>
-                  <span v-text='todo.title' class='todo-title'></span>
-                  <span v-if="todo.type === 'timer'" class='todo-left' v-text="secondsToTime(todo.maxDuration-todo.currentDuration) + ' left'"></span>
-                  <i class='lar la-trash-alt' @click="$emit('requestTodoDeletion', todo.id)"></i>
-                </div>
-              `,
+          <div
+            :class="{
+            'todo-item': todo.title,
+            'done': todo.status === 'done',
+            'active': todo.status === 'active',
+          }"
+          >
+            <i
+              :class="{
+            'lar': todo.title,
+            'la-play-circle': todo.type === 'timer' && todo.status !== 'active',
+            'la-pause-circle': todo.type === 'timer' && todo.status === 'active',
+            'la-circle': todo.type === 'text' && todo.status === 'new',
+            'la-check-circle' : todo.status === 'done',
+          }"
+              @click="todo.type === 'timer' ? (todo.status === 'active' ? pauseTimer() : startTimer()) : toggleStatus()"
+            ></i>
+            <span v-text='todo.title' class='todo-title'></span>
+            <span v-if="todo.type === 'timer'" class='todo-left' v-text="secondsToTime(todo.maxDuration-todo.currentDuration) + ' left'"></span>
+            <i class='lar la-trash-alt' @click="$emit('requestTodoDeletion', todo.id)"></i>
+          </div>
+        `,
         name: "TodoItem",
         // TODO: проверять проперти
         props: ["todo"],
@@ -283,71 +283,74 @@
 
       app.component("todo-form", {
         template: `
-                <div class="todo-item" @keyup.enter="process">
-                    <template v-if="todoType === 'timer'">
-                      <i class="lar la-clock"
-                        @click="todoType === 'timer' ? todoType = 'text' : todoType = 'timer'"
-                      ></i>
-                      <input v-model="todoTitle" placeholder="Type your todo"  type="text" class='todo-title' />
-                      <!-- TODO: принимать человекочитаемый инпут, а не секунды --> 
-                      <input class='todo-title' placeholder="and time in seconds" v-model="todoMaxDuration" type="text" inputmode="numeric" pattern="\d*">
-                      <i
-                        class='lar la-save'
-                        @click="process"
-                      ></i>
-                    </template>
-                    
-                    <template v-else>
-                      <i class="lar la-circle"
-                        @click="todoType === 'timer' ? todoType = 'text' : todoType = 'timer'"
-                      ></i>
-                     <input v-model="todoTitle" placeholder="Type your todo"  type="text" class='todo-title' />
-                     <i
-                       class='lar la-save'
-                       @click="process"
-                     ></i>
-                    </template>
-                </div>
-              `,
+          <div class="todo-item" @keyup.enter="process">
+              <template v-if="inputType === 'timer'">
+                <i class="lar la-clock"
+                  @click="inputType === 'timer' ? inputType = 'text' : inputType = 'timer'"
+                ></i>
+                <input v-model="inputTitle" placeholder="Type your todo"  type="text" class='todo-title' />
+                <input class='todo-title' placeholder="and time in minutes" v-model="inputTime" type="text" inputmode="numeric" pattern="\d*">
+                <i
+                  class='lar la-save'
+                  @click="process"
+                ></i>
+              </template>
+              
+              <template v-else>
+                <i class="lar la-circle"
+                  @click="inputType === 'timer' ? inputType = 'text' : inputType = 'timer'"
+                ></i>
+               <input v-model="inputTitle" placeholder="Type your todo"  type="text" class='todo-title' />
+               <i
+                 class='lar la-save'
+                 @click="process"
+               ></i>
+              </template>
+          </div>
+        `,
         name: "TodoForm",
         data() {
           return {
-            todoType: "text",
-            todoTitle: "",
-            todoMaxDuration: null,
+            inputType: "text",
+            inputTitle: "",
+            inputTime: null, //in minutes
           };
         },
         watch: {
-          todoType(newType, oldValue) {
+          inputType(newType, oldValue) {
             if (newType === "time") {
-              this.todoMaxDuration = 0;
+              this.inputTime = 0;
             }
             if (newType === "text") {
-              this.todoMaxDuration = null;
+              this.inputTime = null;
             }
           },
         },
         methods: {
           process() {
-            if (this.todoTitle === "") {
+            if (this.inputTitle === "") {
               return;
             }
-            if (this.todoType === "timer") {
+            if (this.inputType === "timer") {
               if (
-                this.todoMaxDuration == 0 ||
-                this.todoMaxDuration === null ||
-                this.todoMaxDuration === undefined
+                this.inputTime == 0 ||
+                this.inputTime === null ||
+                this.inputTime === undefined
               ) {
                 return;
               }
               this.$emit(
                 "requestTodoCreation",
-                this.todoTitle,
-                this.todoType,
-                this.todoMaxDuration
+                this.inputTitle,
+                this.inputType,
+                this.inputTime * 60 // convert to seconds;
               );
             } else {
-              this.$emit("requestTodoCreation", this.todoTitle, this.todoType);
+              this.$emit(
+                "requestTodoCreation",
+                this.inputTitle,
+                this.inputType
+              );
             }
           },
         },

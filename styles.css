@@ -39,8 +39,8 @@ body {
     align-items: center;
     row-gap: var(--gap);
 
-    width: calc(var(--frame-width) - var(--button-width));
-    height: var(--frame-height);
+    width: var(--frame-width);
+    height: calc(var(--frame-height) - var(--button-width)/2);
     overflow-y: scroll;
 
     margin: 0;
@@ -218,7 +218,7 @@ input:focus{
     :root {
         --gap: 1em;
         --frame-width: 100vw;
-    } 
+    }
 }
 
 @media only screen and (min-width: 600px) {
