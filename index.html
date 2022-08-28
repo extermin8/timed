@@ -31,11 +31,17 @@
     <div id="app">
       <main>
         <div id="wrapper">
-          <!-- TODO: реализовать формочку для добавления todo -->
-          <div id="todo-add">
-            <i class="las la-plus"></i>
+          <div id="todo-add" @click="isFormOpened = !isFormOpened">
+            <i
+              class="las la-plus"
+              :style="isFormOpened ? 'transform: rotate(45deg)' : ''"
+            ></i>
           </div>
           <div id="todo-list">
+            <todo-form
+              v-if="isFormOpened"
+              @request-todo-creation="addTodo"
+            ></todo-form>
             <todo-item
               v-for="todo in sortedTodos"
               :key="todo.id"
@@ -55,6 +61,7 @@
         data() {
           return {
             appName: "timed",
+            isFormOpened: false,
             priority: ["active", "paused", "new", "done"],
             todos: [
               {
@@ -138,6 +145,23 @@
           },
         },
         methods: {
+          // maxDuration только если type - timer
+          addTodo(todoTitle, todoType, todoMaxDuration) {
+            const todoId = Math.max(...this.todos.map((o) => o.id)) + 1;
+            const newTodo = {
+              id: todoId,
+              title: todoTitle,
+              type: todoType,
+              status: "new",
+            };
+            if (todoType === "timer") {
+              newTodo.currentDuration = 0;
+              newTodo.maxDuration = todoMaxDuration;
+            }
+
+            this.isFormOpened = false;
+            this.todos.push(newTodo);
+          },
           deleteTodo(todoId) {
             const index = this.todos.findIndex((todo) => {
               return todo.id === todoId;
@@ -150,7 +174,7 @@
 
       app.component("todo-item", {
         template: `
-            <div
+                <div
                   :class="{
                   'todo-item': todo.title,
                   'done': todo.status === 'done',
@@ -177,8 +201,8 @@
         props: ["todo"],
         data() {
           return {
-            timerId: null
-          }
+            timerId: null,
+          };
         },
         watch: {
           "todo.status"(newStatus) {
@@ -221,6 +245,69 @@
             this.todo.status === "done"
               ? (this.todo.status = "new")
               : (this.todo.status = "done");
+          },
+        },
+      });
+
+      app.component("todo-form", {
+        template: `
+                <div class="todo-item">
+                  <i
+                    :class="{
+                  'lar': true,
+                  'la-clock': todoType === 'timer',
+                  'la-circle': todoType === 'text'
+                }"
+                    @click="todoType === 'timer' ? todoType = 'text' : todoType = 'timer'"
+                  ></i>
+                  <input v-model="todoTitle" placeholder="Type your todo"  type="text" class='todo-title' />
+                  <input v-if="todoType === 'timer'" class='todo-title' placeholder="and time in seconds" v-model="todoMaxDuration" type="text" inputmode="numeric" pattern="\d*">
+                  <i
+                    class='lar la-save'
+                    @click="process"
+                  ></i>
+                </div>
+              `,
+        name: "TodoForm",
+        data() {
+          return {
+            todoType: "text",
+            todoTitle: "",
+            todoMaxDuration: null,
+          };
+        },
+        watch: {
+          todoType(newType, oldValue) {
+            if (newType === "time") {
+              this.todoMaxDuration = 0;
+            }
+            if (newType === "text") {
+              this.todoMaxDuration = null;
+            }
+          },
+        },
+        methods: {
+          process() {
+            if (this.todoTitle === "") {
+              return;
+            }
+            if (this.todoType === "timer") {
+              if (
+                this.todoMaxDuration == 0 ||
+                this.todoMaxDuration === null ||
+                this.todoMaxDuration === undefined
+              ) {
+                return;
+              }
+              this.$emit(
+                "requestTodoCreation",
+                this.todoTitle,
+                this.todoType,
+                this.todoMaxDuration
+              );
+            } else {
+              this.$emit("requestTodoCreation", this.todoTitle, this.todoType);
+            }
           },
         },
       });

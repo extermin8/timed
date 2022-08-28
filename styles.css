@@ -11,7 +11,10 @@
 :root {
     --gap: 2em;
     --sidebar: 4em;
-    --frame-height: calc(100vh - var(--gap) * 6);
+    --frame-height: calc(100vh - var(--gap) * 4);
+}
+*, *::before, *::after {
+    box-sizing: border-box;
 }
 
 body {
@@ -127,6 +130,24 @@ footer {
     visibility: visible;
 }
 
+/* input */
+input[type='text'] {
+    font-family: inherit; 
+    font-size: inherit; 
+    line-height: inherit;
+    margin: 0;
+    border: none;
+    border-bottom: 1px solid var(--f_high);
+    color: var(--f_high);
+    background-color: var(--b_med);
+    margin-right: 0.5em;
+}
+input:placeholder-shown {
+    border-bottom: 1px solid var(--f_low);    
+}
+input::placeholder{
+    color: var(--f_low);
+}
 
 
 /* Scrollbar */
