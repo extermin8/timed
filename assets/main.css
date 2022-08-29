@@ -41,14 +41,39 @@ body {
 
     width: var(--frame-width);
     height: calc(var(--frame-height) - var(--button-width)/2);
-    overflow-y: scroll;
 
     margin: 0;
     padding: var(--gap) 0em;
 
     list-style-type: none;
     background-color: var(--b_low);
+    
+    overflow-y: scroll;
+    /* Firefox Scrollbar */
+    scrollbar-color: var(--b_high) var(--b_med);
+    scrollbar-width: thin;
 }
+
+/* Chrome Scrollbar */
+::-webkit-scrollbar {
+    width: calc(var(--gap) / 4);
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: var(--b_med); 
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: var(--b_high);
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--b_high);
+  }
+
 #todo-add {
     display: flex;
     align-items: center;
@@ -222,26 +247,6 @@ input:focus{
     60% {
       transform: translate3d(4px, 0, 0);
     }
-  }
-
-/* Scrollbar */
-::-webkit-scrollbar {
-    width: calc(var(--gap) / 4);
-  }
-  
-  /* Track */
-  ::-webkit-scrollbar-track {
-    background: var(--b_med); 
-  }
-   
-  /* Handle */
-  ::-webkit-scrollbar-thumb {
-    background: var(--b_high);
-  }
-  
-  /* Handle on hover */
-  ::-webkit-scrollbar-thumb:hover {
-    background: var(--b_high);
   }
 
 

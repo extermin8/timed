@@ -98,14 +98,18 @@
         },
         beforeMount() {
           // читаю localStorage и все активные таймеры делаю неактивными
-          this.todos =
-            JSON.parse(localStorage.getItem("todos")).map((obj) => {
-              if (obj.status === "active") {
-                return { ...obj, status: "paused" };
-              }
+          if (localStorage.getItem("todos")) {
+            this.todos =
+              JSON.parse(localStorage.getItem("todos")).map((obj) => {
+                if (obj.status === "active") {
+                  return { ...obj, status: "paused" };
+                }
 
-              return obj;
-            }) || [];
+                return obj;
+              }) || [];
+          } else {
+            this.todos = [];
+          }
         },
         watch: {
           todos: {
