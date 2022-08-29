@@ -178,30 +178,31 @@
       const app = Vue.createApp(TodoApp);
 
       app.component("todo-item", {
+        /*html*/
         template: `
-                <div
-                  :class="{
-                  'todo-item': todo.title,
-                  'done': todo.status === 'done',
-                  'active': todo.status === 'active',
-                  'animate-congrats': animateCongrats,
-                }"
-                >
-                  <i
-                    :class="{
-                  'lar': todo.title,
-                  'la-play-circle': todo.type === 'timer' && todo.status !== 'active',
-                  'la-pause-circle': todo.type === 'timer' && todo.status === 'active',
-                  'la-circle': todo.type === 'text' && todo.status === 'new',
-                  'la-check-circle' : todo.status === 'done',
-                }"
-                    @click="todo.type === 'timer' ? (todo.status === 'active' ? pauseTimer() : startTimer()) : toggleStatus()"
-                  ></i>
-                  <span v-text='todo.title' class='todo-title'></span>
-                  <span v-if="todo.type === 'timer'" class='todo-left' v-text="hhmmss"></span>
-                  <i class='lar la-trash-alt' @click="$emit('requestTodoDeletion', todo.id)"></i>
-                </div>
-              `,
+          <div
+            :class="{
+            'todo-item': todo.title,
+            'done': todo.status === 'done',
+            'active': todo.status === 'active',
+            'animate-congrats': animateCongrats,
+          }"
+          >
+            <i
+              :class="{
+            'lar': todo.title,
+            'la-play-circle': todo.type === 'timer' && todo.status !== 'active',
+            'la-pause-circle': todo.type === 'timer' && todo.status === 'active',
+            'la-circle': todo.type === 'text' && todo.status === 'new',
+            'la-check-circle' : todo.status === 'done',
+          }"
+              @click="todo.type === 'timer' ? (todo.status === 'active' ? pauseTimer() : startTimer()) : toggleStatus()"
+            ></i>
+            <span v-text='todo.title' class='todo-title'></span>
+            <span v-if="todo.type === 'timer'" class='todo-left' v-text="hhmmss"></span>
+            <i class='lar la-trash-alt' @click="$emit('requestTodoDeletion', todo.id)"></i>
+          </div>
+        `,
         name: "TodoItem",
         props: {
           todo: {
@@ -220,15 +221,15 @@
                 ) {
                   if (
                     obj.type === "timer" &&
-                    ( obj.maxDuration !== undefined &&
-                      obj.currentDuration !== undefined)
+                    obj.maxDuration !== undefined &&
+                    obj.currentDuration !== undefined
                   ) {
                     return true;
                   }
                   if (
                     obj.type === "text" &&
-                    ( obj.maxDuration === undefined &&
-                      obj.currentDuration === undefined)
+                    obj.maxDuration === undefined &&
+                    obj.currentDuration === undefined
                   ) {
                     return true;
                   }
@@ -304,32 +305,33 @@
       });
 
       app.component("todo-form", {
+        /*html*/
         template: `
-                <div class="todo-item" @keyup.enter="process">
-                    <template v-if="inputType === 'timer'">
-                      <i class="lar la-clock"
-                        @click="inputType === 'timer' ? inputType = 'text' : inputType = 'timer'"
-                      ></i>
-                      <input v-model="inputTitle" placeholder="Type your todo"  type="text" class='todo-title' />
-                      <input class='todo-title' placeholder="and time in minutes" v-model="inputTime" type="text" inputmode="numeric" pattern="\d*">
-                      <i
-                        class='lar la-save'
-                        @click="process"
-                      ></i>
-                    </template>
+          <div class="todo-item" @keyup.enter="process">
+              <template v-if="inputType === 'timer'">
+                <i class="lar la-clock"
+                  @click="inputType === 'timer' ? inputType = 'text' : inputType = 'timer'"
+                ></i>
+                <input v-model="inputTitle" placeholder="Type your todo"  type="text" class='todo-title' />
+                <input class='todo-title' placeholder="and time in minutes" v-model="inputTime" type="text" inputmode="numeric" pattern="\d*">
+                <i
+                  class='lar la-save'
+                  @click="process"
+                ></i>
+              </template>
 
-                    <template v-else>
-                      <i class="lar la-circle"
-                        @click="inputType === 'timer' ? inputType = 'text' : inputType = 'timer'"
-                      ></i>
-                     <input v-model="inputTitle" placeholder="Type your todo"  type="text" class='todo-title' />
-                     <i
-                       class='lar la-save'
-                       @click="process"
-                     ></i>
-                    </template>
-                </div>
-              `,
+              <template v-else>
+                <i class="lar la-circle"
+                  @click="inputType === 'timer' ? inputType = 'text' : inputType = 'timer'"
+                ></i>
+               <input v-model="inputTitle" placeholder="Type your todo"  type="text" class='todo-title' />
+               <i
+                 class='lar la-save'
+                 @click="process"
+               ></i>
+              </template>
+          </div>
+        `,
         name: "TodoForm",
         data() {
           return {
