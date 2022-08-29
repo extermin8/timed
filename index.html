@@ -63,14 +63,17 @@
       </footer>
     </div>
     <script>
+      const STATUS_ORDER = ["active", "paused", "new", "done"];
+      const TYPE_ORDER = ["timer", "text"];
+
       const TodoApp = {
         data() {
           return {
             appName: "timed",
             isFormOpened: false,
             priority: [
-              ["status", ["active", "paused", "new", "done"]],
-              ["type", ["timer", "text"]],
+              ["status", STATUS_ORDER],
+              ["type", TYPE_ORDER],
             ],
             iconStyle: "",
             todos: [],
@@ -200,8 +203,41 @@
                 </div>
               `,
         name: "TodoItem",
-        // TODO: проверять проперти
-        props: ["todo"],
+        props: {
+          todo: {
+            type: Object,
+            required: true,
+            validator: function (obj) {
+              if (
+                obj.id !== undefined &&
+                obj.title !== undefined &&
+                obj.type !== undefined &&
+                obj.status !== undefined
+              ) {
+                if (
+                  TYPE_ORDER.includes(obj.type) &&
+                  STATUS_ORDER.includes(obj.status)
+                ) {
+                  if (
+                    obj.type === "timer" &&
+                    ( obj.maxDuration !== undefined &&
+                      obj.currentDuration !== undefined)
+                  ) {
+                    return true;
+                  }
+                  if (
+                    obj.type === "text" &&
+                    ( obj.maxDuration === undefined &&
+                      obj.currentDuration === undefined)
+                  ) {
+                    return true;
+                  }
+                }
+              }
+              return false;
+            },
+          },
+        },
         data() {
           return {
             timerId: null,
