@@ -312,28 +312,15 @@
         /*html*/
         template: `
           <div class="todo-item" @keyup.enter="process">
-              <template v-if="inputType === 'timer'">
-                <i class="lar la-clock"
-                  @click="inputType === 'timer' ? inputType = 'text' : inputType = 'timer'"
-                ></i>
-                <input v-model="inputTitle" placeholder="Type your todo"  type="text" class='todo-title' />
-                <input class='todo-title' placeholder="and time in minutes" v-model="inputTime" type="text" inputmode="numeric" pattern="\d*">
-                <i
-                  class='lar la-save'
-                  @click="process"
-                ></i>
-              </template>
-
-              <template v-else>
-                <i class="lar la-circle"
-                  @click="inputType === 'timer' ? inputType = 'text' : inputType = 'timer'"
-                ></i>
-               <input v-model="inputTitle" placeholder="Type your todo"  type="text" class='todo-title' />
-               <i
-                 class='lar la-save'
-                 @click="process"
-               ></i>
-              </template>
+            <i :class="['lar', inputType === 'timer' ? 'la-clock' : 'la-circle']"
+              @click="inputType === 'timer' ? inputType = 'text' : inputType = 'timer'"
+            ></i>
+            <input v-model="inputTitle" placeholder="Type your todo"  type="text" class='todo-title' ref="text" />
+            <input v-if="inputType === 'timer'" class='todo-title' placeholder="and time in minutes" v-model="inputTime" type="text" inputmode="numeric" pattern="\d*">
+            <i
+              class='lar la-save'
+              @click="process"
+            ></i>
           </div>
         `,
         name: "TodoForm",
@@ -344,8 +331,12 @@
             inputTime: null, //in minutes
           };
         },
+        mounted() {
+          this.focusOnTitle();
+        },
         watch: {
           inputType(newType, oldValue) {
+            this.focusOnTitle();
             if (newType === "time") {
               this.inputTime = 0;
             }
@@ -355,6 +346,9 @@
           },
         },
         methods: {
+          focusOnTitle() {
+            this.$nextTick(() => this.$refs.text.focus());
+          },
           process() {
             if (this.inputTitle === "") {
               return;
