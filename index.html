@@ -1,8 +1,4 @@
 <!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
 <html>
   <head>
     <meta charset="utf-8" />
@@ -57,7 +53,7 @@
         </div>
       </main>
       <footer>
-        <!-- TODO: что-то тут реализовать -->
+        <!-- TODO: add links -->
         <div>Contact me</div>
         <div>Credits</div>
       </footer>
@@ -81,7 +77,7 @@
         },
         computed: {
           sortedTodos: function () {
-            // Новый массив нужен чтобы работала анимация при пересортировке
+            // array recreates for animation  
             return [...this.todos].sort((a, b) => {
               let result = 0;
 
@@ -97,7 +93,7 @@
           },
         },
         beforeMount() {
-          // читаю localStorage и все активные таймеры делаю неактивными
+          // reads from localStorage and deactivate all active timers
           if (localStorage.getItem("todos")) {
             this.todos =
               JSON.parse(localStorage.getItem("todos")).map((obj) => {
@@ -115,7 +111,6 @@
           todos: {
             handler(newValue, oldValue) {
               localStorage.setItem("todos", JSON.stringify(newValue));
-              // console.log('todos changed', JSON.stringify(newValue));
             },
             deep: true,
           },
@@ -140,7 +135,7 @@
             }
             return 0;
           },
-          // maxDuration только если type - timer
+          // maxDuration only if type = timer
           addTodo(todoTitle, todoType, todoMaxDuration) {
             const todoId = this.todos.length
               ? Math.max(...this.todos.map((o) => o.id)) + 1
