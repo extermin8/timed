@@ -120,6 +120,14 @@ body {
 .todo-item > .todo-title {
     flex-grow: 4;
 }
+.todo-item > button {
+    border: none;
+    background-color: inherit;
+    color: inherit;
+    margin: calc(var(--gap) / 2);
+    padding: 0;
+    font-size: 24px;
+}
 
 .todo-item > i {
     margin: calc(var(--gap) / 2);

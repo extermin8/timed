@@ -41,14 +41,14 @@
               v-if="isFormOpened"
               @request-todo-creation="addTodo"
             ></todo-form>
+            <p v-if="!todos.length">No todos yet!</p>
             <todo-item
-              v-if="todos.length"
+              v-else
               v-for="todo in sortedTodos"
               :key="todo.id"
               :todo="todo"
               @request-todo-deletion="deleteTodo"
             ></todo-item>
-            <p v-else>No todos yet!</p>
           </transition-group>
         </div>
       </main>
@@ -77,7 +77,6 @@
         },
         computed: {
           sortedTodos: function () {
-            // array recreates for animation  
             return [...this.todos].sort((a, b) => {
               let result = 0;
 
@@ -180,16 +179,16 @@
         /*html*/
         template: `
           <div
+            class="todo-item"
             :class="{
-            'todo-item': todo.title,
             'done': todo.status === 'done',
             'active': todo.status === 'active',
             'animate-congrats': animateCongrats,
           }"
           >
             <i
+              class="lar"
               :class="{
-            'lar': todo.title,
             'la-play-circle': todo.type === 'timer' && todo.status !== 'active',
             'la-pause-circle': todo.type === 'timer' && todo.status === 'active',
             'la-circle': todo.type === 'text' && todo.status === 'new',
@@ -267,19 +266,22 @@
         },
         computed: {
           hhmmss() {
-            let milliseconds =
-              this.todo.maxDuration - this.todo.currentDuration;
-            let seconds = Math.floor(milliseconds / 1000);
-            let minutes = Math.floor(seconds / 60);
-            let hours = Math.floor(minutes / 60);
+            if (this.todo.type === "timer") {
+              let milliseconds =
+                this.todo.maxDuration - this.todo.currentDuration;
+              let seconds = Math.floor(milliseconds / 1000);
+              let minutes = Math.floor(seconds / 60);
+              let hours = Math.floor(minutes / 60);
 
-            seconds = seconds % 60;
-            minutes = minutes % 60;
-            hours = hours % 24;
+              seconds = seconds % 60;
+              minutes = minutes % 60;
+              hours = hours % 24;
 
-            return `${this.padTo2Digits(hours)}:${this.padTo2Digits(
-              minutes
-            )}:${this.padTo2Digits(seconds)}`;
+              return `${this.padTo2Digits(hours)}:${this.padTo2Digits(
+                minutes
+              )}:${this.padTo2Digits(seconds)}`;
+            }
+            return null;
           },
         },
         methods: {
@@ -306,17 +308,18 @@
       app.component("todo-form", {
         /*html*/
         template: `
-          <div class="todo-item" @keyup.enter="process">
+          <form class="todo-item" @submit.prevent="process">
             <i :class="['lar', inputType === 'timer' ? 'la-clock' : 'la-circle']"
               @click="inputType === 'timer' ? inputType = 'text' : inputType = 'timer'"
             ></i>
-            <input v-model="inputTitle" placeholder="Type your todo"  type="text" class='todo-title' ref="text" />
-            <input v-if="inputType === 'timer'" class='todo-title' placeholder="and time in minutes" v-model="inputTime" type="text" inputmode="numeric" pattern="\d*">
-            <i
-              class='lar la-save'
-              @click="process"
-            ></i>
-          </div>
+            <input v-model.trim="inputTitle" placeholder="Type your todo"  type="text" class='todo-title' ref="text" />
+            <input v-if="inputType === 'timer'" class='todo-title' placeholder="and time in minutes" v-model.number="inputTime" type="text" inputmode="numeric">
+            <button>
+              <i
+                class='lar la-save'
+              ></i>
+            </button>
+          </form>
         `,
         name: "TodoForm",
         data() {
