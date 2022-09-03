@@ -197,7 +197,7 @@
               @click="todo.type === 'timer' ? (todo.status === 'active' ? pauseTimer() : startTimer()) : toggleStatus()"
             ></i>
             <span v-text='todo.title' class='todo-title'></span>
-            <span v-if="todo.type === 'timer'" class='todo-left' v-text="hhmmss"></span>
+            <span v-if="todo.type === 'timer'" class='todo-left' v-text="timeString"></span>
             <i class='lar la-trash-alt' @click="$emit('requestTodoDeletion', todo.id)"></i>
           </div>
         `,
@@ -265,7 +265,7 @@
           },
         },
         computed: {
-          hhmmss() {
+          timeString() {
             if (this.todo.type === "timer") {
               let milliseconds =
                 this.todo.maxDuration - this.todo.currentDuration;
