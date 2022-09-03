@@ -13,18 +13,23 @@
     --button-width: 4em;
     --frame-height: calc(100vh - var(--gap) * 4);
 }
-*, *::before, *::after {
+
+*,
+*::before,
+*::after {
     box-sizing: border-box;
 }
+
 html {
     scroll-behavior: smooth;
-  }
+}
+
 body {
     font-family: 'Source Code Pro', monospace;
     background-color: var(--background);
     color: var(--f_high);
     padding: 0em;
-	margin: 0;
+    margin: 0;
 }
 
 #wrapper {
@@ -32,6 +37,7 @@ body {
     width: var(--frame-width);
     margin: var(--gap) auto;
 }
+
 #todo-list {
     display: flex;
     flex-direction: column;
@@ -47,7 +53,7 @@ body {
 
     list-style-type: none;
     background-color: var(--b_low);
-    
+
     overflow-y: scroll;
     /* Firefox Scrollbar */
     scrollbar-color: var(--b_high) var(--b_med);
@@ -57,22 +63,22 @@ body {
 /* Chrome Scrollbar */
 ::-webkit-scrollbar {
     width: calc(var(--gap) / 4);
-  }
-  
-  /* Track */
-  ::-webkit-scrollbar-track {
-    background: var(--b_med); 
-  }
-   
-  /* Handle */
-  ::-webkit-scrollbar-thumb {
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: var(--b_med);
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
     background: var(--b_high);
-  }
-  
-  /* Handle on hover */
-  ::-webkit-scrollbar-thumb:hover {
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
     background: var(--b_high);
-  }
+}
 
 #todo-add {
     display: flex;
@@ -84,6 +90,7 @@ body {
     min-height: calc(var(--button-width)/2);
     margin: 0;
 }
+
 #todo-add:hover {
     background-color: var(--b_med);
 }
@@ -107,6 +114,7 @@ body {
     border: 1px solid var(--b_med);
     overflow-wrap: break-word;
 }
+
 .todo-item:hover {
     border: 1px solid var(--f_high);
 }
@@ -117,10 +125,11 @@ body {
     color: var(--f_high);
 }
 
-.todo-item > .todo-title {
+.todo-item>.todo-title {
     flex-grow: 4;
 }
-.todo-item > button {
+
+.todo-item>button {
     border: none;
     background-color: inherit;
     color: inherit;
@@ -129,9 +138,10 @@ body {
     font-size: 24px;
 }
 
-.todo-item > i {
+.todo-item>i {
     margin: calc(var(--gap) / 2);
 }
+
 i {
     font-size: 24px;
 }
@@ -144,7 +154,7 @@ i {
     border: 1px solid var(--b_med);
 }
 
-.done > .todo-title{
+.done>.todo-title {
     text-decoration: line-through;
 }
 
@@ -159,20 +169,20 @@ footer {
 }
 
 /* Trash can on hover */
-.todo-item > :last-child {
+.todo-item> :last-child {
     /* display: none; */
     visibility: hidden;
 }
 
-.todo-item:hover > :last-child  {
+.todo-item:hover> :last-child {
     /* display: inline-block; */
     visibility: visible;
 }
 
 /* input */
 input[type='text'] {
-    font-family: inherit; 
-    font-size: inherit; 
+    font-family: inherit;
+    font-size: inherit;
     line-height: inherit;
     margin: 0;
     border: none;
@@ -181,13 +191,16 @@ input[type='text'] {
     background-color: var(--b_med);
     margin-right: 0.5em;
 }
+
 input:placeholder-shown {
-    border-bottom: 1px solid var(--f_low);    
+    border-bottom: 1px solid var(--f_low);
 }
+
 input::placeholder {
     color: var(--f_low);
 }
-input:focus{
+
+input:focus {
     outline: none;
 }
 
@@ -195,7 +208,8 @@ input:focus{
 /* Transitions & animations */
 .list-move {
     transition: transform 0.5s;
-} 
+}
+
 .list-enter-active,
 .list-leave-active {
     transition: all 0.25s ease;
@@ -208,21 +222,24 @@ input:focus{
 }
 
 .list-leave-active {
-  position: absolute;
+    position: absolute;
 }
 
 @keyframes rotate {
     from {
         transform: rotate(0deg);
     }
+
     to {
         transform: rotate(45deg);
     }
 }
+
 @keyframes rotateBack {
     from {
         transform: rotate(45deg);
     }
+
     to {
         transform: rotate(0deg);
     }
@@ -232,30 +249,31 @@ input:focus{
 .animate-congrats {
     animation: shake 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
     transform: translate3d(0, 0, 0);
-  }
-  
-  @keyframes shake {
+}
+
+@keyframes shake {
+
     10%,
     90% {
-      transform: translate3d(-1px, 0, 0);
+        transform: translate3d(-1px, 0, 0);
     }
-  
+
     20%,
     80% {
-      transform: translate3d(2px, 0, 0);
+        transform: translate3d(2px, 0, 0);
     }
-  
+
     30%,
     50%,
     70% {
-      transform: translate3d(-4px, 0, 0);
+        transform: translate3d(-4px, 0, 0);
     }
-  
+
     40%,
     60% {
-      transform: translate3d(4px, 0, 0);
+        transform: translate3d(4px, 0, 0);
     }
-  }
+}
 
 
 @media only screen and (max-width: 600px) {
@@ -268,7 +286,7 @@ input:focus{
 @media only screen and (min-width: 600px) {
     :root {
         --frame-width: 85vw;
-    }  
+    }
 }
 
 @media only screen and (min-width: 992px) {
