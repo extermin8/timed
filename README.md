@@ -1,6 +1,17 @@
-# time-d
+# 🔥 timed
 
-This template should help get you started developing with Vue 3 in Vite.
+In-browser task tracker with timer functionality.  
+Built with ❤️ using Vue 3 Composition API and Vite.
+
+## Future Features
+
+- [ ] Task tags
+- [X] Timed tasks
+- [ ] Due-to tasks
+- [ ] Recurring tasks
+- [X] [Theming](https://github.com/hundredrabbits/Themes) support
+- [X] Saving to localStorage
+- [ ] Filtration by task types, statuses and tags
 
 ## Recommended IDE Setup
 
