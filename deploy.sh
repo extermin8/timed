@@ -1,4 +1,5 @@
-#!/usr/bin/env sh
+#!/bin/bash
+GIT_REPO_URL=$(git config --get remote.origin.url)
 
 # abort on errors
 set -e
@@ -12,6 +13,11 @@ cd dist
 # place .nojekyll to bypass Jekyll processing
 echo > .nojekyll
 
-cd -
-
-git subtree push --prefix dist origin gh-pages
+git init .
+git remote add github $GIT_REPO_URL
+git checkout -b gh-pages
+git add .
+git commit -am "Static site deploy"
+git push github gh-pages --force
+cd ..
+rm -rf dist
