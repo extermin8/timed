@@ -13,13 +13,14 @@
       rel="stylesheet"
       href="https://fonts.googleapis.com/css?family=Source+Code+Pro"
     />
-    <script
-      type="text/javascript"
-      src="/src/lib/theme.js"
-    ></script>
   </head>
   <body>
-    <script> let theme = new Theme(); theme.install(); theme.start(); </script>
+    <script type="module">
+      import Theme from './src/lib/theme.js';
+      let theme = new Theme();
+      theme.install();
+      theme.start();
+    </script>
     <div id="app"></div>
     <script type="module" src="/src/main.js"></script>
   </body>

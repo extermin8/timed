@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 "use strict";
 
-function Theme(client) {
+export default function Theme(client) {
   this.el = document.createElement("style");
   this.el.type = "text/css";
 
