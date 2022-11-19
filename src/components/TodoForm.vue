@@ -69,7 +69,7 @@ watch(inputType, (newType) => {
     <input
       v-if="inputType === 'timer'"
       class="todo-title"
-      placeholder="and time in minutes"
+      placeholder="& time in mins"
       v-model.number="inputTime"
       type="text"
       inputmode="numeric"

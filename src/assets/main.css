@@ -154,6 +154,7 @@ input[type="text"] {
   color: var(--f_high);
   background-color: var(--b_med);
   margin-right: 0.5em;
+  min-width: 140px;
 }
 
 input:placeholder-shown {
