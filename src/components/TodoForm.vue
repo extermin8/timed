@@ -54,7 +54,7 @@ watch(inputType, (newType) => {
 <template>
   <form class="todo-item" @submit.prevent="process">
     <i
-      :class="['lar', inputType === 'timer' ? 'la-clock' : 'la-circle']"
+      :class="['lar', inputType === 'timer' ? 'la-clock' : 'la-check-circle']"
       @click="
         inputType === 'timer' ? (inputType = 'text') : (inputType = 'timer')
       "
