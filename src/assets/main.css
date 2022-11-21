@@ -70,6 +70,7 @@
   align-items: center;
 
   width: calc(100% - var(--gap) * 2);
+  min-width: 380px;
   /* min-height: var(--gap); */
   height: calc(1.5em + var(--gap));
 
@@ -136,6 +137,7 @@ footer {
 .todo-item > :last-child {
   /* display: none; */
   visibility: hidden;
+  margin-left: auto;
 }
 
 .todo-item:hover > :last-child {
@@ -156,7 +158,9 @@ input[type="text"] {
   margin-right: 0.5em;
   min-width: 140px;
 }
-
+input[inputmode="numeric"] {
+  min-width: 10ch;
+}
 input:placeholder-shown {
   border-bottom: 1px solid var(--f_low);
 }

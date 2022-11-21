@@ -21,14 +21,13 @@ body {
   padding: 0em;
   margin: 0;
 }
-@media only screen and (max-width: 430px) {
+@media only screen and (max-width: 450px) {
   :root {
-      --gap: 0.6em;
+    --gap: 1em;
   }
 }
-@media only screen and (max-width: 600px) {
+@media only screen and (min-width: 450px) {
   :root {
-      --gap: 1em;
       --frame-width: 100vw;
   }
 }
