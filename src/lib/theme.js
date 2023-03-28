@@ -6,7 +6,7 @@ export default function Theme(client) {
   this.el.type = "text/css";
 
   this.active = {};
-  this.default = {
+/*  this.default = {
     background: "#eeeeee",
     f_high: "#0a0a0a",
     f_med: "#4a4a4a",
@@ -16,6 +16,17 @@ export default function Theme(client) {
     b_med: "#c1c1c1",
     b_low: "#ffffff",
     b_inv: "#ffb545",
+  }; */
+  this.default = {
+    background: "#29272b",
+    f_high:"#ffffff",
+    f_med:"#e47464",
+    f_low:"#66606b",
+    f_inv:"#000000",
+    b_high:"#000000",
+    b_med:"#201e21",
+    b_low:"#322e33",
+    b_inv:"#e47464",
   };
 
   // Callbacks
